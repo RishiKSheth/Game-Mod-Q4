@@ -1283,14 +1283,16 @@ bool idPhysics_Player::CheckJump( void ) {
 	}
 
 	//Checking to see if player is jumping (10-20)
-	if (command.upmove > 10 && command.upmove < 20) {
+	/*if (command.upmove > 10 && command.upmove < 20) {
 		//return true; 
 		gameLocal.Printf("Jumping\n");
-	}
+	}*/
 
-	//checking to see if we can handle multiple key events together
+	//checking to see if we can handle multiple key events together this key event is for super jump 
 	if (command.upmove > 10 && GetAsyncKeyState(0x4A)) {
-		gameLocal.Printf("JUMPINGTOOHIGH\n");;
+		//gameLocal.Printf("JUMPINGTOOHIGH\n");;
+		SetMaxJumpHeight(300.f);
+		addVelocity = 2.0f * maxJumpHeight * -gravityVector;
 	}
 
 	// must wait for jump to be released
