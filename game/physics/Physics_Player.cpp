@@ -2,6 +2,7 @@
 #pragma hdrstop
 
 #include "../Game_local.h"
+#include <Windows.h>
 
 CLASS_DECLARATION( idPhysics_Actor, idPhysics_Player )
 END_CLASS
@@ -1271,12 +1272,25 @@ void idPhysics_Player::CheckLadder( void ) {
 idPhysics_Player::CheckJump
 =============
 */
+
+/*Checks Jump (command is used to trigger character movement events*/
 bool idPhysics_Player::CheckJump( void ) {
 	idVec3 addVelocity;
 
 	if ( command.upmove < 10 ) {
 		// not holding jump
 		return false;
+	}
+
+	//Checking to see if player is jumping (10-20)
+	if (command.upmove > 10 && command.upmove < 20) {
+		//return true; 
+		gameLocal.Printf("Jumping\n");
+	}
+
+	//checking to see if we can handle multiple key events together
+	if (command.upmove > 10 && GetAsyncKeyState(0x4A)) {
+		gameLocal.Printf("JUMPINGTOOHIGH\n");;
 	}
 
 	// must wait for jump to be released
