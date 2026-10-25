@@ -9304,9 +9304,9 @@ void idPlayer::Think( void ) {
 	//gameLocal.Printf("Player JUMP INTIALIZE");
 	//super jump 
 	if (usercmd.upmove > 0) {
-		gameLocal.Printf("Player JUMP INTIALIZETwo");
-		physicsObj.SetMaxJumpHeight(500);
-		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 500));
+		//gameLocal.Printf("Player JUMP INTIALIZETwo");
+		physicsObj.SetMaxJumpHeight(700);
+		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}
 
 	if ( !gameLocal.usercmds ) {
