@@ -1622,6 +1622,7 @@ void idPlayer::Init( void ) {
 			SetupHead();
 		}
 	}
+	
 
 	if ( cursor ) {
  		cursor->SetStateInt( "talkcursor", 0 );
@@ -9300,9 +9301,23 @@ void idPlayer::Think( void ) {
 		}
 	}
 
+	//gameLocal.Printf("Player JUMP INTIALIZE");
+	//super jump 
+	/*if (usercmd.upmove > 0) {
+		//gameLocal.Printf("Player JUMP INTIALIZETwo");
+		physicsObj.SetMaxJumpHeight(700);
+		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
+	}*/
+	if (usercmd.upmove > 0) {
+		physicsObj.SetMaxJumpHeight(700);
+		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
+	}
+
 	if ( !gameLocal.usercmds ) {
 		return;
 	}
+
+	
 
 #ifdef _XENON
 	// change the crosshair if it's modified
@@ -9644,6 +9659,7 @@ void idPlayer::Think( void ) {
 
 	inBuyZonePrev = false;
 }
+
 
 /*
 =================

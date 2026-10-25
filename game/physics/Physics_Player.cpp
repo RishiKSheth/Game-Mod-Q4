@@ -1271,6 +1271,8 @@ void idPhysics_Player::CheckLadder( void ) {
 idPhysics_Player::CheckJump
 =============
 */
+
+/*Checks Jump (command is used to trigger character movement events*/
 bool idPhysics_Player::CheckJump( void ) {
 	idVec3 addVelocity;
 
@@ -1292,18 +1294,20 @@ bool idPhysics_Player::CheckJump( void ) {
 	groundPlane = false;		// jumping away
 	walking = false;
 	current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
-
 	addVelocity = 2.0f * maxJumpHeight * -gravityVector;
 	addVelocity *= idMath::Sqrt( addVelocity.Normalize() );
 	current.velocity += addVelocity;
+
+
 
 // RAVEN BEGIN
 // bdube: crouch slide, nick maggoire is awesome
 	current.crouchSlideTime = 0;
 // RAVEN END
-
+// 
 	return true;
 }
+
 
 /*
 =============
