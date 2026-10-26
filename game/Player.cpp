@@ -9308,10 +9308,18 @@ void idPlayer::Think( void ) {
 		physicsObj.SetMaxJumpHeight(700);
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}*/
+
+	//super jump
 	if (usercmd.upmove > 0) {
 		physicsObj.SetMaxJumpHeight(700);
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}
+
+	//backdash
+	/*if (usercmd.backdash > 0) {
+		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, -700));
+	}*/
+	
 
 	if ( !gameLocal.usercmds ) {
 		return;
