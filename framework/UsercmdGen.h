@@ -143,6 +143,7 @@ public:
 	signed char	forwardmove;					// forward/backward movement
 	signed char	rightmove;						// left/right movement
 	signed char	upmove;							// up/down movement
+	signed char backdash;						// backdash movement
 	short		angles[3];						// view angles
 	short		mx;								// mouse delta x
 	short		my;								// mouse delta y

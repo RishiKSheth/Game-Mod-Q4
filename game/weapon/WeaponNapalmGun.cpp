@@ -28,6 +28,7 @@ public:
 
 	void					Save( idSaveGame *saveFile ) const;
 	void					Restore( idRestoreGame *saveFile );
+	void					Homing(void);
 
 protected:
 
@@ -147,6 +148,8 @@ void WeaponNapalmGun::MuzzleRise( idVec3 &origin, idMat3 &axis ) {
 WeaponNapalmGun::UpdateCylinders
 ===============
 */
+
+
 void WeaponNapalmGun::UpdateCylinders(void)
 {
 	idAnimator* animator;
