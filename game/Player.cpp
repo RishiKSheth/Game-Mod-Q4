@@ -9301,19 +9301,17 @@ void idPlayer::Think( void ) {
 		}
 	}
 
-	//gameLocal.Printf("Player JUMP INTIALIZE");
-	//super jump 
-	/*if (usercmd.upmove > 0) {
-		//gameLocal.Printf("Player JUMP INTIALIZETwo");
-		physicsObj.SetMaxJumpHeight(700);
-		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
-	}*/
-
+	
 	//super jump
 	if (usercmd.upmove > 0) {
 		physicsObj.SetMaxJumpHeight(700);
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}
+
+	//makes character faster to the right 
+	if (usercmd.rightmove > 0) {
+		physicsObj.SetLinearVelocity(idVec3(0, 300, 0));
+	}	
 
 	//backdash
 	/*if (usercmd.backdash > 0) {
