@@ -9313,6 +9313,13 @@ void idPlayer::Think( void ) {
 		physicsObj.SetLinearVelocity(idVec3(0, 300, 0));
 	}	
 
+	//makes character faster to the left
+	if (usercmd.rightmove < 0) {
+		physicsObj.SetLinearVelocity(idVec3(0, -300, 0));
+	}
+
+	
+
 	//backdash
 	/*if (usercmd.backdash > 0) {
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, -700));
