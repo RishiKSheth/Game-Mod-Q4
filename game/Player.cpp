@@ -9301,22 +9301,61 @@ void idPlayer::Think( void ) {
 		}
 	}
 
-	
-	//super jump
+	//direction 
+	idVec3 forward;
+	viewAngles.ToVectors(&forward);
+	//gameLocal.Printf("forward: %f, %f, %f\n", forward.x, forward.y, forward.z);
+
+
+	//super jump 
 	if (usercmd.upmove > 0) {
 		physicsObj.SetMaxJumpHeight(700);
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}
 
-	//makes character faster to the right 
+	//FLYING
+	if (usercmd.upmove > 0 && usercmd.forwardmove > 0) { 
+		physicsObj.SetMaxJumpHeight(700);
+		idVec3 velocity = physicsObj.GetLinearVelocity();
+		velocity.x = forward.x * 300.0f;
+		velocity.y = forward.y * 300.0f;
+		velocity.z = 300.0f;
+		physicsObj.SetLinearVelocity(velocity);
+	}
+
+
+	//makes character righdash (RIGHT)
 	if (usercmd.rightmove > 0) {
-		physicsObj.SetLinearVelocity(idVec3(0, 300, 0));
+		idVec3 left; 
+		viewAngles.ToVectors(NULL, &left);
+		physicsObj.SetLinearVelocity(left * 300.0f);
+		
 	}	
 
-	//makes character faster to the left
+	//makes character leftdash (LEFT) 
 	if (usercmd.rightmove < 0) {
-		physicsObj.SetLinearVelocity(idVec3(0, -300, 0));
+		idVec3 right;
+		viewAngles.ToVectors(NULL, &right);
+		physicsObj.SetLinearVelocity(right * -300.0f);
 	}
+
+	//forward dash
+	if (usercmd.forwardmove > 0) {
+		idVec3 forward;
+		viewAngles.ToVectors(&forward);
+		//gameLocal.Printf("forward: %f, %f, %f\n", forward.x, forward.y, forward.z);
+		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), forward * 100.0f);
+		//gameLocal.Printf("How much forward: %f\n", (forward * -100.0f));
+	}
+	
+	//backdash
+	if (usercmd.forwardmove < 0) {
+		idVec3 backward;
+		viewAngles.ToVectors(&backward);
+		physicsObj.ApplyImpulse(0, backward * 100.0f, physicsObj.GetOrigin());
+	}
+
+
 
 	
 
