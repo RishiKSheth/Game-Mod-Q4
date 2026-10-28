@@ -9301,16 +9301,35 @@ void idPlayer::Think( void ) {
 		}
 	}
 
-	
-	//super jump
+	//direction 
+	idVec3 forward;
+	viewAngles.ToVectors(&forward);
+	//gameLocal.Printf("forward: %f, %f, %f\n", forward.x, forward.y, forward.z);
+
+
+	//super jump 
 	if (usercmd.upmove > 0) {
 		physicsObj.SetMaxJumpHeight(700);
 		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), idVec3(0, 0, 700));
 	}
 
-	//makes character faster to the right 
+	//FLYING
+	if (usercmd.upmove > 0 && usercmd.forwardmove > 0) { 
+		physicsObj.SetMaxJumpHeight(700);
+		idVec3 velocity = physicsObj.GetLinearVelocity();
+		velocity.x = forward.x * 300.0f;
+		velocity.y = forward.y * 300.0f;
+		velocity.z = 300.0f;
+		physicsObj.SetLinearVelocity(velocity);
+	}
+
+
+	//makes character righdash (RIGHT)
 	if (usercmd.rightmove > 0) {
-		physicsObj.SetLinearVelocity(idVec3(0, 300, 0));
+		idVec3 left; 
+		viewAngles.ToVectors(NULL, &left);
+		physicsObj.SetLinearVelocity(left * 300.0f);
+		
 	}	
 
 	//makes character faster to the left
