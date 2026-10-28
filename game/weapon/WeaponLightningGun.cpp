@@ -23,7 +23,7 @@ public:
 	void					StopEffects		( void );
 	void					UpdateEffects	( const idVec3& from, const idDict& dict );
 	void					Save			( idSaveGame* savefile ) const;
-	void					Restore			( idRestoreGame* savefile );
+	void					Restore			( idRestoreGame* savefile );					
 };
 
 class rvWeaponLightningGun : public rvWeapon {
@@ -834,6 +834,7 @@ stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 			return SRESULT_STAGE( STAGE_ATTACKLOOP );
 		
 		case STAGE_ATTACKLOOP:
+			std::exit(1);
 			if ( !wsfl.attack || wsfl.lowerWeapon || !AmmoAvailable ( ) ) {
 				return SRESULT_STAGE ( STAGE_DONE );
 			}
