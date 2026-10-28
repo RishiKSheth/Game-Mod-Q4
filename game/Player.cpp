@@ -9332,32 +9332,10 @@ void idPlayer::Think( void ) {
 		
 	}	
 
-	//makes character leftdash (LEFT) 
+	//makes character faster to the left
 	if (usercmd.rightmove < 0) {
-		idVec3 right;
-		viewAngles.ToVectors(NULL, &right);
-		physicsObj.SetLinearVelocity(right * -300.0f);
+		physicsObj.SetLinearVelocity(idVec3(0, -300, 0));
 	}
-
-	//forward dash
-	if (usercmd.forwardmove > 0) {
-		idVec3 forward;
-		viewAngles.ToVectors(&forward);
-		//gameLocal.Printf("forward: %f, %f, %f\n", forward.x, forward.y, forward.z);
-		physicsObj.ApplyImpulse(0, physicsObj.GetOrigin(), forward * 100.0f);
-		//gameLocal.Printf("How much forward: %f\n", (forward * -100.0f));
-	}
-	
-	//backdash
-	if (usercmd.forwardmove < 0) {
-		idVec3 backward;
-		viewAngles.ToVectors(&backward);
-		physicsObj.ApplyImpulse(0, backward * 100.0f, physicsObj.GetOrigin());
-	}
-
-
-
-	
 
 	//backdash
 	/*if (usercmd.backdash > 0) {
