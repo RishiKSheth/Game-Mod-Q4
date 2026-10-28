@@ -20,7 +20,7 @@ public:
 #endif
 
 private:
-
+	int 				reloadTime;
 	stateResult_t		State_Idle		( const stateParms_t& parms );
 	stateResult_t		State_Fire		( const stateParms_t& parms );
 	stateResult_t		State_Reload	( const stateParms_t& parms );
@@ -145,7 +145,7 @@ stateResult_t rvWeaponGrenadeLauncher::State_Fire ( const stateParms_t& parms ) 
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
+			Attack ( false, 5, 20, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_ALL, GetFireAnim(), 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
@@ -175,6 +175,7 @@ stateResult_t rvWeaponGrenadeLauncher::State_Reload ( const stateParms_t& parms 
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			reloadTime = gameLocal.time + (4000 * owner->PowerUpModifier(PMOD_FIRERATE));
 			if ( wsfl.netReload ) {
 				wsfl.netReload = false;
 			} else {
@@ -186,7 +187,7 @@ stateResult_t rvWeaponGrenadeLauncher::State_Reload ( const stateParms_t& parms 
 			return SRESULT_STAGE ( STAGE_WAIT );
 			
 		case STAGE_WAIT:
-			if ( AnimDone ( ANIMCHANNEL_ALL, 4 ) ) {
+			if ( AnimDone ( ANIMCHANNEL_ALL, 4 ) && gameLocal.time >= reloadTime ) {
 				AddToClip ( ClipSize() );
 				SetState ( "Idle", 4 );
 				return SRESULT_DONE;
