@@ -314,7 +314,7 @@ stateResult_t rvWeaponDarkMatterGun::State_Fire ( const stateParms_t& parms ) {
 			StopRings ( );
 
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
+			Attack ( false, 5, 20, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
@@ -340,6 +340,7 @@ stateResult_t rvWeaponDarkMatterGun::State_Reload ( const stateParms_t& parms ) 
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			nextAttackTime = gameLocal.time + (200 * owner->PowerUpModifier(PMOD_FIRERATE));
 			if ( wsfl.netReload ) {
 				wsfl.netReload = false;
 			} else {
