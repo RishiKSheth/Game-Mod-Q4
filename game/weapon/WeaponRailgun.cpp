@@ -25,7 +25,7 @@ protected:
 	jointHandle_t			jointBatteryView;
 
 private:
-
+	int 				reloadTime;
 	stateResult_t		State_Idle		( const stateParms_t& parms );
 	stateResult_t		State_Fire		( const stateParms_t& parms );
 	stateResult_t		State_Reload	( const stateParms_t& parms );
@@ -153,20 +153,20 @@ stateResult_t rvWeaponRailgun::State_Idle( const stateParms_t& parms ) {
 		case STAGE_WAIT:			
 			if ( wsfl.lowerWeapon ) {
 				StopSound( SND_CHANNEL_BODY2, false );
-				SetState ( "Lower", 4 );
+				SetState ( "Lower", 8 );
 				return SRESULT_DONE;
 			}		
 			if ( gameLocal.time > nextAttackTime && wsfl.attack && AmmoInClip ( ) ) {
-				SetState ( "Fire", 0 );
+				SetState ( "Fire", 8 );
 				return SRESULT_DONE;
 			}  
 			// Auto reload?
 			if ( AutoReload() && !AmmoInClip ( ) && AmmoAvailable () ) {
-				SetState ( "reload", 2 );
+				SetState ( "reload", 8 );
 				return SRESULT_DONE;
 			}
 			if ( wsfl.netReload || (wsfl.reload && AmmoInClip() < ClipSize() && AmmoAvailable()>AmmoInClip()) ) {
-				SetState ( "Reload", 4 );
+				SetState ( "Reload", 8 );
 				return SRESULT_DONE;			
 			}
 			return SRESULT_WAIT;
@@ -187,14 +187,14 @@ stateResult_t rvWeaponRailgun::State_Fire ( const stateParms_t& parms ) {
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
-			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
+			Attack ( false, 5, 20, 0, 1.0f );
+			PlayAnim ( ANIMCHANNEL_ALL, "fire", 8 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
 			if ( ( gameLocal.isMultiplayer && gameLocal.time >= nextAttackTime ) || 
-				 ( !gameLocal.isMultiplayer && ( AnimDone ( ANIMCHANNEL_ALL, 2 ) ) ) ) {
-				SetState ( "Idle", 0 );
+				 ( !gameLocal.isMultiplayer && ( AnimDone ( ANIMCHANNEL_ALL, 26 ) ) ) ) {
+				SetState ( "Idle", 8 );
 				return SRESULT_DONE;
 			}		
 			return SRESULT_WAIT;
@@ -215,6 +215,7 @@ stateResult_t rvWeaponRailgun::State_Reload ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			reloadTime = gameLocal.time + (4000 * owner->PowerUpModifier(PMOD_FIRERATE));
 			if ( wsfl.netReload ) {
 				wsfl.netReload = false;
 			} else {
@@ -226,14 +227,14 @@ stateResult_t rvWeaponRailgun::State_Reload ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 			
 		case STAGE_WAIT:
-			if ( AnimDone ( ANIMCHANNEL_ALL, 4 ) ) {
+			if ( AnimDone ( ANIMCHANNEL_ALL, 8 ) && gameLocal.time >= reloadTime ) {
 				AddToClip ( ClipSize() );
-				SetState ( "Idle", 4 );
+				SetState ( "Idle", 8 );
 				return SRESULT_DONE;
 			}
 			if ( wsfl.lowerWeapon ) {
 				StopSound( SND_CHANNEL_BODY2, false );
-				SetState ( "Lower", 4 );
+				SetState ( "Lower", 8 );
 				return SRESULT_DONE;
 			}
 			return SRESULT_WAIT;
